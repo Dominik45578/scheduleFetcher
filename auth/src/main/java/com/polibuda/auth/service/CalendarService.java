@@ -1,10 +1,10 @@
-package com.polibuda.scraper.service;
+package com.polibuda.auth.service;
 
 import com.polibuda.scraper.dto.EventDto;
 import com.polibuda.scraper.dto.RRuleDto;
-import com.polibuda.scraper.model.CalendarElement;
-import com.polibuda.scraper.model.CalendarElementRRule;
-import com.polibuda.scraper.model.CalendarFile;
+import com.polibuda.auth.model.CalendarElement;
+import com.polibuda.auth.model.CalendarElementRRule;
+import com.polibuda.auth.model.CalendarFile;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -18,9 +18,6 @@ public class CalendarService {
     private static final String PROD_ID = "-//Polibuda Scraper//ICS Generator//PL";
     private static final String VERSION = "2.0";
 
-    /**
-     * Główna metoda: przyjmuje listę EventDto i zwraca gotowy CalendarFile
-     */
     public CalendarFile buildCalendarFile(List<EventDto> eventDtos) {
         List<CalendarElement> elements = eventDtos.stream()
                 .map(this::buildCalendarElement)
@@ -33,9 +30,7 @@ public class CalendarService {
                 .build();
     }
 
-    /**
-     * Buduje pojedynczy CalendarElement z EventDto
-     */
+
     private CalendarElement buildCalendarElement(EventDto eventDto) {
         CalendarElement.CalendarElementBuilder builder = CalendarElement.builder()
                 .title(eventDto.getTitle())
@@ -54,9 +49,6 @@ public class CalendarService {
         return builder.build();
     }
 
-    /**
-     * Buduje obiekt CalendarElementRRule z DTO RRule
-     */
     private CalendarElementRRule buildRRule(RRuleDto rruleDto) {
         return CalendarElementRRule.builder()
                 .dtstart(rruleDto.getDtstart())

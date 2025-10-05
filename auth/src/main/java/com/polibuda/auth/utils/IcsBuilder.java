@@ -1,8 +1,8 @@
-package com.polibuda.scraper.utils;
+package com.polibuda.auth.utils;
 
-import com.polibuda.scraper.model.CalendarElement;
-import com.polibuda.scraper.model.CalendarElementRRule;
-import com.polibuda.scraper.model.CalendarFile;
+import com.polibuda.auth.model.CalendarElement;
+import com.polibuda.auth.model.CalendarElementRRule;
+import com.polibuda.auth.model.CalendarFile;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;

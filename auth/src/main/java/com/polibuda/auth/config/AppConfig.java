@@ -1,4 +1,4 @@
-package com.polibuda.scraper.config;
+package com.polibuda.auth.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

@@ -1,7 +1,7 @@
-package com.polibuda.scraper.rest;
+package com.polibuda.auth.rest;
 
 import com.polibuda.scraper.dto.FilterRequestDto;
-import com.polibuda.scraper.service.IcsService;
+import com.polibuda.auth.service.IcsService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
@@ -16,7 +16,6 @@ public class FilteredEventController {
 
     @PostMapping("/ics")
     public String filterEvents(@RequestBody FilterRequestDto request) {
-        // Delegacja całej logiki do serwisu
         return icsService.getIcsFile(request);
     }
 }

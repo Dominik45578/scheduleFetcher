@@ -1,4 +1,4 @@
-package com.polibuda.scraper.model;
+package com.polibuda.auth.model;
 
 import lombok.Builder;
 import lombok.Data;
