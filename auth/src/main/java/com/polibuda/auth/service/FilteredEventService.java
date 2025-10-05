@@ -1,8 +1,8 @@
 package com.polibuda.auth.service;
 
 import com.polibuda.auth.FilteredEventFetcher;
-import com.polibuda.scraper.dto.EventDto;
-import com.polibuda.scraper.dto.FilterRequestDto;
+import com.polibuda.auth.dto.EventDto;
+import com.polibuda.auth.dto.FilterRequestDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

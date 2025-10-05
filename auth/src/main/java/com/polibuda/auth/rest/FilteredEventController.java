@@ -1,6 +1,6 @@
 package com.polibuda.auth.rest;
 
-import com.polibuda.scraper.dto.FilterRequestDto;
+import com.polibuda.auth.dto.FilterRequestDto;
 import com.polibuda.auth.service.IcsService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

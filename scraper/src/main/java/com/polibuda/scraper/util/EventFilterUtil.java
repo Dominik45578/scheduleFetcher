@@ -8,12 +8,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class EventFilterUtil {
 
     public static List<EventDto> filterByGroup(List<EventDto> events, GroupName groupName) {
         return events.stream()
-                     .filter(e -> e.getGroup().equalsIgnoreCase(groupName.getCode()))
+                     .filter(e -> e.getGroup().contains(groupName.getCode()))
                      .toList();
     }
 
@@ -32,10 +33,20 @@ public class EventFilterUtil {
 
     public static List<EventDto> filterByFacultyAndGroups(List<EventDto> events, FacultyName faculty, List<GroupName> groups) {
         List<String> groupCodes = getGroupCodes(groups);
-        return filterByFaculty(events, faculty)
-                .stream()
-                .filter(e -> groupCodes.contains(e.getGroup()))
+        return filterByFaculty(events, faculty).stream()
+                .filter(e -> {
+                    List<String> eventGroups = Stream.of(e.getGroup()
+                                    .split("/"))
+                            .map(String::trim)
+                            .map(String::toLowerCase)
+                            .toList();
+
+                    return groupCodes.stream()
+                            .map(String::toLowerCase)
+                            .anyMatch(eventGroups::contains);
+                })
                 .toList();
     }
+
 
 }

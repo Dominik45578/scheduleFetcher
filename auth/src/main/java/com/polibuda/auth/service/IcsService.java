@@ -1,7 +1,7 @@
 package com.polibuda.auth.service;
 
-import com.polibuda.scraper.dto.EventDto;
-import com.polibuda.scraper.dto.FilterRequestDto;
+import com.polibuda.auth.dto.EventDto;
+import com.polibuda.auth.dto.FilterRequestDto;
 import com.polibuda.auth.model.CalendarFile;
 import com.polibuda.auth.utils.IcsBuilder;
 import lombok.RequiredArgsConstructor;

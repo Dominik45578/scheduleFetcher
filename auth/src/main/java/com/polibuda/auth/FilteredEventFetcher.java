@@ -2,8 +2,8 @@
 
     import com.fasterxml.jackson.core.type.TypeReference;
     import com.fasterxml.jackson.databind.ObjectMapper;
-    import com.polibuda.scraper.dto.EventDto;
-    import com.polibuda.scraper.dto.FilterRequestDto;
+    import com.polibuda.auth.dto.EventDto;
+    import com.polibuda.auth.dto.FilterRequestDto;
     import lombok.RequiredArgsConstructor;
     import org.springframework.beans.factory.annotation.Value;
     import org.springframework.http.HttpEntity;

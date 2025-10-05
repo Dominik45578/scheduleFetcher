@@ -35,8 +35,6 @@ public class EventController {
             log.error("Incorrect Faculty Name ", e);
             return ResponseEntity.badRequest().build(); // niepoprawny wydział
         }
-
-        // 2️⃣ Parsowanie grup na listę enumów
         List<GroupName> groupEnums = request.getGroups().stream()
                 .map(s -> {
                     try {

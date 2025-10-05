@@ -1,7 +1,8 @@
 package com.polibuda.auth.service;
 
-import com.polibuda.scraper.dto.EventDto;
-import com.polibuda.scraper.dto.RRuleDto;
+
+import com.polibuda.auth.dto.EventDto;
+import com.polibuda.auth.dto.RRuleDto;
 import com.polibuda.auth.model.CalendarElement;
 import com.polibuda.auth.model.CalendarElementRRule;
 import com.polibuda.auth.model.CalendarFile;

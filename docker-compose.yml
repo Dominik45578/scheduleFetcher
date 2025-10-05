@@ -1,0 +1,24 @@
+version: "3.8"
+services:
+  auth:
+    build: ./auth
+    container_name: auth
+    ports:
+      - "12346:12346"
+    environment:
+      SCRAPER_URL: http://scraper:12345
+    depends_on:
+      - scraper
+    networks:
+      - app-net
+
+  scraper:
+    build: ./scraper
+    container_name: scraper
+    ports:
+      - "12345:12345"
+    networks:
+      - app-net
+
+networks:
+  app-net:
