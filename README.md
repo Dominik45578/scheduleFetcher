@@ -1,9 +1,28 @@
-ICS Generator API
+## ICS Generator API
+Mikroserwis umożliwiający generowanie plików **ICS** (kalendarza zajęć) dla wybranego semestru i grup.
+# Link do frontendu
 
-Mikroserwis umożliwiający generowanie plików **ICS** (kalendarza zajęć) dla wybranego wydziału i grup.
+**Endpoint:**
+```
+http://localhost:12346/
+```
+Dane pobierane są z 
+```
+http://eclipse.elektron.pk.edu.pl/~plany-wieik/doku.php?id=pdf:start
+```
+
+<img width="1322" height="796" alt="image" src="https://github.com/user-attachments/assets/ac3f8285-49f8-4bab-9dd6-87289c10d2d6" />
+
+**Opis:**  
+- Po uruchmowieniu obu usług przejdź do podanej strony aby wybrać odpowiednie grupy. 
+- Aplikacja pokazuje na końcu wybrany semestr i grupy
+# Plik ics zostanie pobrany automatycznie
+##  Uwagi
+- Endpointy są lokalne, więc aplikacja musi być uruchomiona w intelij lub jako kontener w docker
+- W przypadku błędu `Bad Request` sprawdź poprawność nazw `faculty` oraz `groups`.
 
 ---
-### Endpointy API
+# Endpointy API
 
  1. Generowanie pliku ICS
 
@@ -115,12 +134,7 @@ END:VCALENDAR
   
 ---
 
-##  Uwagi
 
-- Endpointy są lokalne, więc aplikacja musi być uruchomiona w intelij lub jako kontener w docker
-- W przypadku błędu `Bad Request` sprawdź poprawność nazw `faculty` oraz `groups`.
-
----
 
 **Autor:**  
 Dominik Koralik - WIEik - IwIK
