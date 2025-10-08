@@ -16,15 +16,6 @@ public enum FacultyName {
     IWIK_S6("IwIKs6"),
     IWIK_S7("IwIKs7"),
 
-<<<<<<< HEAD
-    EIA_S1("EiAs2"),
-    EIA_S2("IwIKs2"),
-    EIA_S3("IwIKs3"),
-    EIA_S4("IwIKs4"),
-    EIA_S5("IwIKs5"),
-    EIA_S6("IwIKs6"),
-    EIA_S7("IwIKs7");
-=======
     EIA_S1("EiAs1"),
     EIA_S2("EiAs2"),
     EIA_S3("EiAs3"),
@@ -38,7 +29,6 @@ public enum FacultyName {
 
     IT_S2("Its2"),
     EE("EE");
->>>>>>> 75f4aac (Working frontend)
 
     private final String code;
 
