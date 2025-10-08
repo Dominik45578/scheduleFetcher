@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="pl" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>WIEIK ICS Generator - Student</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #121212;
+            color: #eaeaea;
+        }
+        .container {
+            max-width: 900px;
+        }
+        .card {
+            background-color: #1e1e1e;
+            color: #eaeaea;
+            border: 1px solid #333;
+        }
+        h1 {
+            font-size: 1.8rem;
+        }
+        .form-select, .form-check-input, .form-check-label {
+            background-color: #1e1e1e;
+            color: #eaeaea;
+        }
+        .form-select {
+            max-height: 150px;
+            overflow-y: auto;
+        }
+        .nav-tabs .nav-link {
+            color: #ccc;
+            border: none;
+        }
+        .nav-tabs .nav-link.active {
+            background-color: #007bff;
+            color: white;
+            border-radius: .5rem .5rem 0 0;
+        }
+        .tab-content {
+            background-color: #1b1b1b;
+        }
+        .form-check {
+            background-color: #1b1b1b;
+            border-radius: 8px;
+            padding: 4px 8px;
+            transition: all 0.2s;
+        }
+        .form-check-input:checked + .form-check-label {
+            background-color: #0d6efd;
+            border-radius: 6px;
+            padding: 2px 6px;
+            color: #fff;
+        }
+        .form-check-input:checked {
+            accent-color: #0d6efd;
+        }
+        .modal-content {
+            background-color: #222;
+            color: #ddd;
+        }
+        .footer {
+            text-align: center;
+            margin-top: 30px;
+            color: #959595;
+            font-size: 1rem;
+        }
+        .lecture-section {
+            padding: 10px;
+            border-width: 1px !important;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container py-4">
+    <div class="card shadow-lg p-4">
+        <h1 class="text-center mb-3">📅 ICS Generator</h1>
+
+        <form id="icsForm" onsubmit="prepareSummary(event)">
+            <!-- Wybór semestru -->
+            <div class="mb-4">
+                <label for="faculty" class="form-label fw-bold fs-6">🎓 Wybierz wydział / semestr</label>
+                <select id="faculty" class="form-select form-select-sm" required onchange="resetGroups()">
+                    <option value="">-- Wybierz semestr --</option>
+                </select>
+            </div>
+
+            <!-- Sekcja wykładów -->
+            <div class="mb-4 lecture-section border border-2 rounded bg-dark">
+                <label class="form-label fw-bold text-info fs-6">🎤 Wykłady (W)</label>
+                <div id="panel-w" class="row row-cols-2 row-cols-md-4 g-2"></div>
+            </div>
+
+            <!-- Zakładki grup -->
+            <div class="mb-3">
+                <label class="form-label fw-bold fs-6">👥 Wybierz grupy</label>
+                <ul class="nav nav-tabs" id="groupTabs" role="tablist">
+                    <li class="nav-item"><button class="nav-link active" data-bs-toggle="tab" data-bs-target="#panel-lk" type="button">Laboratoria Komputerowe</button></li>
+                    <li class="nav-item"><button class="nav-link" data-bs-toggle="tab" data-bs-target="#panel-l" type="button">Laboratoria</button></li>
+                    <li class="nav-item"><button class="nav-link" data-bs-toggle="tab" data-bs-target="#panel-p" type="button">Projekt</button></li>
+                    <li class="nav-item"><button class="nav-link" data-bs-toggle="tab" data-bs-target="#panel-cw" type="button">Ćwiczenia</button></li>
+                    <li class="nav-item"><button class="nav-link" data-bs-toggle="tab" data-bs-target="#panel-se" type="button">Seminaria</button></li>
+                    <li class="nav-item"><button class="nav-link" data-bs-toggle="tab" data-bs-target="#panel-lek" type="button">Lektorat</button></li>
+                    <li class="nav-item"><button class="nav-link" data-bs-toggle="tab" data-bs-target="#panel-other" type="button">Inne</button></li>
+                </ul>
+
+                <div class="tab-content border border-top-0 p-3 rounded-bottom" id="groupTabsContent">
+                    <div class="tab-pane fade show active" id="panel-lk"></div>
+                    <div class="tab-pane fade" id="panel-l"></div>
+                    <div class="tab-pane fade" id="panel-p"></div>
+                    <div class="tab-pane fade" id="panel-cw"></div>
+                    <div class="tab-pane fade" id="panel-se"></div>
+                    <div class="tab-pane fade" id="panel-lek"></div>
+                    <div class="tab-pane fade" id="panel-other"></div>
+                </div>
+            </div>
+
+            <button type="submit" class="btn btn-primary btn-sm w-100 mt-3">📥 Generuj plik ICS</button>
+        </form>
+
+        <div id="result" class="mt-3"></div>
+    </div>
+
+    <div class="footer">Autor: Dominik Koralik</div>
+</div>
+
+<!-- Modal podsumowania -->
+<div class="modal fade" id="summaryModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Potwierdzenie wyboru</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <p><strong>Semestr:</strong> <span id="sumFaculty"></span></p>
+                <p><strong>Wybrane grupy:</strong></p>
+                <ul id="sumGroups"></ul>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Anuluj</button>
+                <button type="button" class="btn btn-primary" onclick="sendRequest()">Potwierdź i generuj</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    const API_BASE = "http://localhost:12346/api";
+
+    async function loadFaculty() {
+        const res = await fetch(`${API_BASE}/faculty`);
+        const data = await res.json();
+        const select = document.getElementById('faculty');
+        data.forEach(fac => {
+            const option = document.createElement('option');
+            option.value = fac;
+            option.textContent = fac.toUpperCase();
+            select.appendChild(option);
+        });
+    }
+
+    function resetGroups() {
+        document.querySelectorAll('input[type=checkbox]').forEach(cb => cb.checked = false);
+    }
+
+    async function loadGroups() {
+        const res = await fetch(`${API_BASE}/groups`);
+        const data = await res.json();
+
+        const categories = {
+            w: [], lk: [], l: [], cw: [], se: [], lek: [], p: [], other: []
+        };
+
+        data.forEach(gr => {
+            const lower = gr.toLowerCase();
+            if (lower.startsWith('w') && lower.endsWith("w")) categories.w.push(gr);
+            else if (lower.startsWith('lk')) categories.lk.push(gr);
+            else if (lower.startsWith('l') && !lower.startsWith('lk') && !lower.startsWith('lek')) categories.l.push(gr);
+            else if (lower.startsWith('ć')) categories.cw.push(gr);
+            else if (lower.startsWith('s')) categories.se.push(gr);
+            else if (lower.startsWith('lek')) categories.lek.push(gr);
+            else if (lower.startsWith('p')) categories.p.push(gr);
+            else categories.other.push(gr);
+        });
+
+        for (const [key, list] of Object.entries(categories)) {
+            const container = document.getElementById(`panel-${key}`);
+            if (!container) continue;
+            container.innerHTML = list.length
+                ? `<div class="row row-cols-4 row-cols-md-8 g-1">
+                    ${list.map(gr => `
+                        <div class="col">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" value="${gr}" id="group_${gr}">
+                                <label class="form-check-label" for="group_${gr}">${gr}</label>
+                            </div>
+                        </div>`).join('')}
+                   </div>`
+                : `<p class='text-muted fst-italic'>Brak grup w tej kategorii</p>`;
+        }
+    }
+
+    function prepareSummary(event) {
+        event.preventDefault();
+        const faculty = document.getElementById('faculty').value;
+        const checked = [...document.querySelectorAll('input[type=checkbox]:checked')].map(el => el.value);
+        if (!faculty || checked.length === 0) {
+            alert("Wybierz semestr i przynajmniej jedną grupę!");
+            return;
+        }
+        document.getElementById('sumFaculty').textContent = faculty;
+        document.getElementById('sumGroups').innerHTML = checked.map(gr => `<li>${gr}</li>`).join('');
+        new bootstrap.Modal(document.getElementById('summaryModal')).show();
+    }
+
+    async function sendRequest() {
+        const faculty = document.getElementById('faculty').value;
+        const checked = [...document.querySelectorAll('input[type=checkbox]:checked')].map(el => el.value);
+
+        const body = JSON.stringify({ faculty, groups: checked });
+        const result = document.getElementById('result');
+        result.innerHTML = `<div class="alert alert-info">⏳ Generowanie pliku...</div>`;
+
+        try {
+            const response = await fetch(`${API_BASE}/ics`, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body
+            });
+
+            if (!response.ok) throw new Error(`Błąd: ${response.status}`);
+
+            const blob = await response.blob();
+
+            const text = await blob.text();
+            if (!text.includes("BEGIN:VEVENT")) {
+                throw new Error("Plik kalendarza jest pusty - brak wybranych grup lub błąd serwera");
+            }
+
+            const url = window.URL.createObjectURL(new Blob([text], { type: "text/calendar" }));
+            const fileName = `${faculty}_${checked.join("_")}.ics`;
+
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = fileName;
+            a.click();
+
+            result.innerHTML = `<div class="alert alert-success">✅ Plik <strong>${fileName}</strong> został pobrany.</div>`;
+            bootstrap.Modal.getInstance(document.getElementById('summaryModal')).hide();
+
+        } catch (error) {
+            result.innerHTML = `<div class="alert alert-danger">❌ Wystąpił błąd: ${error.message}</div>`;
+        }
+    }
+
+
+    window.addEventListener('DOMContentLoaded', () => {
+        loadFaculty();
+        loadGroups();
+    });
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
