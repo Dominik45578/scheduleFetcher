@@ -1,0 +1,38 @@
+syntax = "proto3";
+
+option java_multiple_files = true;
+option java_package = "com.polibuda.proto";
+option java_outer_classname = "EventsProto";
+
+// 🔹 Zapytanie klienta: filtr wydarzeń
+message FilterRequest {
+  string faculty = 1;        // np. W4, WEiTI, itp.
+  repeated string groups = 2; // lista grup
+}
+
+// 🔹 Definicja pojedynczego eventu
+message Event {
+  string duration = 1;
+  string end = 2;
+  string endDate = 3;
+  string eventType = 4;
+  string faculty = 5;
+  string group = 6;
+  string instructor = 7;
+  int32 interval = 8;
+  string room = 9;
+  string start = 10;
+  string startDate = 11;
+  string startTime = 12;
+  string title = 13;
+}
+
+// 🔹 Odpowiedź z serwera
+message FilteredEventsResponse {
+  repeated Event events = 1;
+}
+
+// 🔹 Definicja serwisu gRPC
+service EventService {
+  rpc GetFilteredEvents (FilterRequest) returns (FilteredEventsResponse);
+}
