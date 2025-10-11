@@ -1,8 +1,9 @@
 package com.polibuda.auth;
 
-import com.polibuda.auth.dto.EventDto;
-import com.polibuda.auth.dto.FilterRequestDto;
+
 import com.polibuda.auth.grpc.AuthGrpcClient;
+import com.polibuda.dto.EventDto;
+import com.polibuda.dto.FilterRequestDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 

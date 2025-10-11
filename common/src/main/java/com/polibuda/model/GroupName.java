@@ -1,6 +1,9 @@
-package com.polibuda.scraper.model;
+package com.polibuda.model;
 
 import lombok.Getter;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 public enum GroupName {
@@ -74,5 +77,13 @@ public enum GroupName {
             }
         }
         throw new IllegalArgumentException("Nieznany kod grupy: " + code);
+    }
+
+    public static List<String> getGroupNames() {
+        List<String> groupNames = new ArrayList<>();
+        for (GroupName g : values()) {
+            groupNames.add(g.code);
+        }
+        return groupNames;
     }
 }

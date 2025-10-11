@@ -1,7 +1,10 @@
 package com.polibuda.scraper.grpc;
 
-import com.polibuda.proto.*;
-import com.polibuda.scraper.dto.EventDto;
+import com.polibuda.dto.EventDto;
+import com.polibuda.proto.Event;
+import com.polibuda.proto.EventServiceGrpc;
+import com.polibuda.proto.FilterRequest;
+import com.polibuda.proto.FilteredEventsResponse;
 import com.polibuda.scraper.service.EventService;
 import io.grpc.stub.StreamObserver;
 import lombok.RequiredArgsConstructor;

@@ -1,14 +1,15 @@
 package com.polibuda.auth.rest;
 
-import com.polibuda.auth.dto.FilterRequestDto;
-import com.polibuda.auth.model.FacultyName;
-import com.polibuda.auth.model.GroupName;
+
 import com.polibuda.auth.service.IcsService;
+import com.polibuda.model.FacultyName;
+import com.polibuda.dto.FilterRequestDto;
+
+import com.polibuda.model.GroupName;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Arrays;
 import java.util.List;
 
 @Slf4j

@@ -1,9 +1,9 @@
 package com.polibuda.scraper.rest;
 
-import com.polibuda.scraper.dto.EventDto;
-import com.polibuda.scraper.dto.FilterRequestDto;
-import com.polibuda.scraper.model.FacultyName;
-import com.polibuda.scraper.model.GroupName;
+import com.polibuda.dto.EventDto;
+import com.polibuda.dto.FilterRequestDto;
+import com.polibuda.model.FacultyName;
+import com.polibuda.model.GroupName;
 import com.polibuda.scraper.service.EventService;
 import com.polibuda.scraper.util.EventFilterUtil;
 import lombok.RequiredArgsConstructor;

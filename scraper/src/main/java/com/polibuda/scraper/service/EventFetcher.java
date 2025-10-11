@@ -2,7 +2,7 @@ package com.polibuda.scraper.service;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.polibuda.scraper.dto.EventDto;
+import com.polibuda.dto.EventDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;

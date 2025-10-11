@@ -1,5 +1,6 @@
 package com.polibuda.auth.grpc;
 
+import com.polibuda.dto.EventDto;
 import com.polibuda.proto.Event;
 import com.polibuda.proto.EventServiceGrpc;
 import com.polibuda.proto.FilterRequest;
@@ -27,7 +28,7 @@ public class AuthGrpcClient {
         blockingStub = EventServiceGrpc.newBlockingStub(channel);
     }
 
-    public List<com.polibuda.auth.dto.EventDto> getFilteredEvents(String faculty, List<String> groups) {
+    public List<EventDto> getFilteredEvents(String faculty, List<String> groups) {
         FilterRequest request = FilterRequest.newBuilder()
                 .setFaculty(faculty)
                 .addAllGroups(groups)
@@ -39,8 +40,8 @@ public class AuthGrpcClient {
                 .collect(Collectors.toList());
     }
 
-    private com.polibuda.auth.dto.EventDto mapToDto(Event e) {
-        var dto = new com.polibuda.auth.dto.EventDto();
+    private EventDto mapToDto(Event e) {
+        var dto = new EventDto();
         dto.setDuration(e.getDuration());
         dto.setEnd(e.getEnd());
         dto.setEndDate(e.getEndDate());

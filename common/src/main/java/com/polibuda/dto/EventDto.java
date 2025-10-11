@@ -1,5 +1,4 @@
-package com.polibuda.scraper.dto;
-
+package com.polibuda.dto;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 

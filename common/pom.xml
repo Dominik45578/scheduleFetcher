@@ -36,6 +36,14 @@
             <artifactId>grpc-stub</artifactId>
         </dependency>
 
+
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-annotations</artifactId>
+            <version>2.17.2</version> <!-- lub wersja zgodna z Twoim Bootem -->
+        </dependency>
+
+
         <dependency>
             <groupId>io.grpc</groupId>
             <artifactId>grpc-protobuf</artifactId>

@@ -1,7 +1,7 @@
 package com.polibuda.scraper;
 
-import com.polibuda.scraper.dto.EventDto;
-import com.polibuda.scraper.dto.RRuleDto;
+import com.polibuda.dto.EventDto;
+import com.polibuda.dto.RRuleDto;
 import lombok.Getter;
 
 @Getter

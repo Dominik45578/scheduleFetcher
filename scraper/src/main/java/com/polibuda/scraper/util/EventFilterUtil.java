@@ -1,13 +1,10 @@
 package com.polibuda.scraper.util;
 
-import com.polibuda.scraper.dto.EventDto;
-import com.polibuda.scraper.model.FacultyName;
-import com.polibuda.scraper.model.GroupName;
+import com.polibuda.dto.EventDto;
+import com.polibuda.model.FacultyName;
+import com.polibuda.model.GroupName;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class EventFilterUtil {

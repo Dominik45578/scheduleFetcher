@@ -1,4 +1,4 @@
-package com.polibuda.auth.dto;
+package com.polibuda.dto;
 
 import lombok.Builder;
 import lombok.Data;

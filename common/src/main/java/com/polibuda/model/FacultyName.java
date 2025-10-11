@@ -1,6 +1,9 @@
-package com.polibuda.scraper.model;
+package com.polibuda.model;
 
 import lombok.Getter;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 public enum FacultyName {
@@ -20,15 +23,12 @@ public enum FacultyName {
     EIA_S5("EiAs5"),
     EIA_S6("EiAs6"),
     EIA_S7("EiAs7"),
+
     EIA_S7A("EiAs7A"),
     EIA_S7I("EiAs7I"),
 
     IT_S2("Its2"),
     EE("EE");
-
-
-
-
 
     private final String code;
 
@@ -48,5 +48,13 @@ public enum FacultyName {
             }
         }
         throw new IllegalArgumentException("Nieznany kod wydziału: " + code);
+    }
+
+    public static List<String> getFacultyNames() {
+        List<String> groupNames = new ArrayList<>();
+        for (FacultyName g : values()) {
+            groupNames.add(g.code);
+        }
+        return groupNames;
     }
 }

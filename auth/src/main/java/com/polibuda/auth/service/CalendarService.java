@@ -1,11 +1,12 @@
 package com.polibuda.auth.service;
 
 
-import com.polibuda.auth.dto.EventDto;
-import com.polibuda.auth.dto.RRuleDto;
+
 import com.polibuda.auth.model.CalendarElement;
 import com.polibuda.auth.model.CalendarElementRRule;
 import com.polibuda.auth.model.CalendarFile;
+import com.polibuda.dto.EventDto;
+import com.polibuda.dto.RRuleDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

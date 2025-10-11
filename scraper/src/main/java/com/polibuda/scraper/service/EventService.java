@@ -1,8 +1,6 @@
 package com.polibuda.scraper.service;
 
-import com.polibuda.scraper.dto.EventDto;
-import com.polibuda.scraper.model.FacultyName;
-import com.polibuda.scraper.model.GroupName;
+import com.polibuda.dto.EventDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
