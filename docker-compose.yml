@@ -1,22 +1,24 @@
 version: "3.8"
 services:
+  scraper:
+    build: ./scraper
+    container_name: scraper
+    ports:
+      - "12345:12345"   # REST
+      - "50051:50051"   # gRPC
+    networks:
+      - app-net
+
   auth:
     build: ./auth
     container_name: auth
     ports:
       - "12346:12346"
-    environment:
-      SCRAPER_URL: http://scraper:12345
     depends_on:
       - scraper
-    networks:
-      - app-net
-
-  scraper:
-    build: ./scraper
-    container_name: scraper
-    ports:
-      - "12345:12345"
+    environment:
+      SCRAPER_GRPC_HOST: scraper
+      SCRAPER_GRPC_PORT: 50051
     networks:
       - app-net
 
