@@ -30,6 +30,9 @@ public class ExtractorService {
     public Optional<Set<GroupName>> getGroups(List<EventDto> events) {
         Set<GroupName> groupSet = new HashSet<>();
         for(String group : getUniqueValue(EventDto::getGroup, events)) {
+            if(group.matches(".*[,/].*")){
+                continue;
+            }
             groupSet.add(new GroupName(group));
         }
         return  Optional.of(groupSet);

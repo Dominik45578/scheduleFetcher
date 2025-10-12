@@ -4,13 +4,24 @@ option java_multiple_files = true;
 option java_package = "com.polibuda.proto";
 option java_outer_classname = "EventsProto";
 
+// potrzebny import dla Empty
+import "google/protobuf/empty.proto";
+
 // 🔹 Zapytanie klienta: filtr wydarzeń
 message FilterRequest {
   string faculty = 1;         // np. W4, WEiTI, itp.
   repeated string groups = 2; // lista grup
 }
 
-// 🔹 Definicja pojedynczego eventu
+// 🆕 Nowa wiadomość reprezentująca RRuleDto
+message RRule {
+  string dtstart = 1;
+  string freq = 2;
+  int32 interval = 3; // Integer w Javie mapuje się na int32
+  string until = 4;
+}
+
+// 🔹 Definicja pojedynczego eventu (teraz z polem rrule)
 message Event {
   string duration = 1;
   string end = 2;
@@ -19,12 +30,13 @@ message Event {
   string faculty = 5;
   string group = 6;
   string instructor = 7;
-  int32 interval = 8;
+  int32 interval = 8; // UWAGA: To pole jest teraz w RRule, rozważ usunięcie stąd jeśli się duplikuje
   string room = 9;
   string start = 10;
   string startDate = 11;
   string startTime = 12;
   string title = 13;
+  RRule rrule = 14;
 }
 
 // 🔹 Odpowiedź z serwera dla filtrowania
@@ -67,6 +79,3 @@ service EventService {
   rpc GetFaculties (google.protobuf.Empty) returns (FacultiesResponse);
   rpc GetGroups (google.protobuf.Empty) returns (GroupsResponse);
 }
-
-// potrzebny import dla Empty
-import "google/protobuf/empty.proto";

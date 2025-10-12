@@ -121,6 +121,14 @@ public class EventServiceGrpcImpl extends EventServiceGrpc.EventServiceImplBase 
                 .setStartDate(nonNull(dto.getStartDate()))
                 .setStartTime(nonNull(dto.getStartTime()))
                 .setTitle(nonNull(dto.getTitle()))
+                .setRrule(
+                        RRule.newBuilder()
+                                .setInterval(dto.getRrule().getInterval())
+                                .setDtstart(dto.getRrule().getDtstart())
+                                .setFreq(dto.getRrule().getFreq())
+                                .setUntil(dto.getRrule().getUntil())
+                                .build()
+                )
                 .build();
     }
 

@@ -3,6 +3,7 @@ package com.polibuda.auth.rest;
 
 import com.polibuda.auth.grpc.AuthGrpcClient;
 import com.polibuda.auth.service.IcsService;
+import com.polibuda.dto.EventDto;
 import com.polibuda.model.FacultyName;
 import com.polibuda.dto.FilterRequestDto;
 
@@ -33,5 +34,9 @@ public class FilteredEventController {
     @GetMapping("/faculty")
     public List<String> getFaculty() {
         return grpcClient.getFaculties();
+    }
+    @PostMapping("/raw")
+    public List<EventDto> getRaw(@RequestBody FilterRequestDto request) {
+       return grpcClient.getFilteredEvents(request.getFaculty(),request.getGroups());
     }
 }

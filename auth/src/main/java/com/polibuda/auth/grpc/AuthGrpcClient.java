@@ -2,6 +2,7 @@ package com.polibuda.auth.grpc;
 
 import com.google.protobuf.Empty;
 import com.polibuda.dto.EventDto;
+import com.polibuda.dto.RRuleDto;
 import com.polibuda.proto.*;
 import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
@@ -90,20 +91,27 @@ public class AuthGrpcClient {
     // ====================================================
 
     private EventDto mapToDto(Event e) {
-        var dto = new EventDto();
-        dto.setDuration(e.getDuration());
-        dto.setEnd(e.getEnd());
-        dto.setEndDate(e.getEndDate());
-        dto.setEventType(e.getEventType());
-        dto.setFaculty(e.getFaculty());
-        dto.setGroup(e.getGroup());
-        dto.setInstructor(e.getInstructor());
-        dto.setInterval(e.getInterval());
-        dto.setRoom(e.getRoom());
-        dto.setStart(e.getStart());
-        dto.setStartDate(e.getStartDate());
-        dto.setStartTime(e.getStartTime());
-        dto.setTitle(e.getTitle());
-        return dto;
+        return EventDto.builder()
+                .duration(e.getDuration())
+                .end(e.getEnd())
+                .endDate(e.getEndDate())
+                .eventType(e.getEventType())
+                .faculty(e.getFaculty())
+                .group(e.getGroup())
+                .interval(e.getInterval())
+                .instructor(e.getInstructor())
+                .room(e.getRoom())
+                .start(e.getStart())
+                .startDate(e.getStartDate())
+                .startTime(e.getStartTime())
+                .title(e.getTitle())
+                .rrule(
+                        RRuleDto.builder()
+                        .dtstart(e.getRrule().getDtstart())
+                        .freq(e.getRrule().getFreq())
+                        .until(e.getRrule().getUntil())
+                        .interval(e.getRrule().getInterval())
+                                .build())
+                .build();
     }
 }

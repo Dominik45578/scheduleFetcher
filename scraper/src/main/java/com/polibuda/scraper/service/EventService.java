@@ -7,6 +7,8 @@ import com.polibuda.scraper.util.EventFilterUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.PostConstruct;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -35,6 +37,7 @@ public class EventService {
     public void refreshEvents() {
         cachedEvents = null;
         getEvents();
+
     }
 
     public  List<FacultyName> getFaculties() {
@@ -52,7 +55,7 @@ public class EventService {
             return  List.copyOf(cachedGroups);
         }
         Optional<Set<GroupName>> events = extractor.getGroups(getEvents());
-        events.ifPresent(list->  cachedGroups = List.copyOf(EventFilterUtil.generateIndividualGroupCodes(list)));
+        events.ifPresent(list->  cachedGroups = List.copyOf(list));
 
         return List.copyOf(cachedGroups);
     }
@@ -68,6 +71,18 @@ public class EventService {
     }
     public GroupName getGroupFromCode(String code){
         return cachedGroups.stream().filter(g -> g.getCode().equalsIgnoreCase(code)).findFirst().orElse(null);
+    }
+
+    @PostConstruct
+    public void init(){
+        cachedEvents = null;
+        cachedFaculties = null;
+        cachedGroups = null;
+        getEvents();
+        getFaculties();
+        getGroups();
+        System.out.println(Arrays.toString(cachedFaculties.toArray()));
+        System.out.println(Arrays.toString(cachedGroups.toArray()));
     }
 
 
