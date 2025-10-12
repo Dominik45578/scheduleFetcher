@@ -6,7 +6,7 @@ option java_outer_classname = "EventsProto";
 
 // 🔹 Zapytanie klienta: filtr wydarzeń
 message FilterRequest {
-  string faculty = 1;        // np. W4, WEiTI, itp.
+  string faculty = 1;         // np. W4, WEiTI, itp.
   repeated string groups = 2; // lista grup
 }
 
@@ -27,12 +27,46 @@ message Event {
   string title = 13;
 }
 
-// 🔹 Odpowiedź z serwera
+// 🔹 Odpowiedź z serwera dla filtrowania
 message FilteredEventsResponse {
   repeated Event events = 1;
 }
 
-// 🔹 Definicja serwisu gRPC
-service EventService {
-  rpc GetFilteredEvents (FilterRequest) returns (FilteredEventsResponse);
+// ========================================
+// 🔹 Nowe modele danych: Faculty & Group
+// ========================================
+
+// pojedynczy wydział
+message Faculty {
+  string code = 1;
 }
+
+// pojedyncza grupa
+message Group {
+  string code = 1;
+}
+
+// 🔹 Odpowiedzi zbiorcze (listy)
+message FacultiesResponse {
+  repeated Faculty faculties = 1;
+}
+
+message GroupsResponse {
+  repeated Group groups = 1;
+}
+
+// ========================================
+// 🔹 Serwis gRPC
+// ========================================
+
+service EventService {
+  // dotychczasowa metoda
+  rpc GetFilteredEvents (FilterRequest) returns (FilteredEventsResponse);
+
+  // 🆕 nowe metody
+  rpc GetFaculties (google.protobuf.Empty) returns (FacultiesResponse);
+  rpc GetGroups (google.protobuf.Empty) returns (GroupsResponse);
+}
+
+// potrzebny import dla Empty
+import "google/protobuf/empty.proto";

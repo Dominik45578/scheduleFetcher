@@ -1,6 +1,7 @@
 package com.polibuda.auth.rest;
 
 
+import com.polibuda.auth.grpc.AuthGrpcClient;
 import com.polibuda.auth.service.IcsService;
 import com.polibuda.model.FacultyName;
 import com.polibuda.dto.FilterRequestDto;
@@ -19,6 +20,7 @@ import java.util.List;
 public class FilteredEventController {
 
     private final IcsService icsService;
+    private final AuthGrpcClient grpcClient;
 
     @PostMapping("/ics")
     public String filterEvents(@RequestBody FilterRequestDto request) {
@@ -26,10 +28,10 @@ public class FilteredEventController {
     }
     @GetMapping("/groups")
     public List<String> getGroups() {
-        return GroupName.getGroupNames();
+        return grpcClient.getGroups();
     }
     @GetMapping("/faculty")
     public List<String> getFaculty() {
-        return FacultyName.getFacultyNames();
+        return grpcClient.getFaculties();
     }
 }

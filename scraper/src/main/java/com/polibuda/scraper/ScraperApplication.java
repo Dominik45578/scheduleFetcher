@@ -1,7 +1,12 @@
 package com.polibuda.scraper;
 
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+@SpringBootApplication
 public class ScraperApplication {
 
     public static void main(String[] args) throws Exception {
-        ScraperGrpcServer.main(args);    }
+        SpringApplication.run(ScraperApplication.class, args);
+    }
 }

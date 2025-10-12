@@ -1,40 +1,110 @@
 package com.polibuda.scraper.grpc;
 
+import com.google.protobuf.Empty;
 import com.polibuda.dto.EventDto;
-import com.polibuda.proto.Event;
-import com.polibuda.proto.EventServiceGrpc;
-import com.polibuda.proto.FilterRequest;
-import com.polibuda.proto.FilteredEventsResponse;
+import com.polibuda.dto.FilterRequestDto;
+import com.polibuda.proto.*;
+import com.polibuda.scraper.service.EventFetcher;
+import com.polibuda.scraper.service.EventFilterHandler;
 import com.polibuda.scraper.service.EventService;
+import com.polibuda.scraper.service.ExtractorService;
 import io.grpc.stub.StreamObserver;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
+/**
+ * Implementacja gRPC serwera, obsługująca zapytania o eventy, grupy oraz fakultety.
+ */
 @Service
 @RequiredArgsConstructor
 public class EventServiceGrpcImpl extends EventServiceGrpc.EventServiceImplBase {
 
     private final EventService eventService;
+    private final EventFilterHandler eventFilterHandler;
+//    private final ExtractorService extractorService;
 
+    /**
+     * Dotychczasowa metoda: filtrowanie eventów po wydziale.
+     */
     @Override
-    public void getFilteredEvents(FilterRequest request, StreamObserver<FilteredEventsResponse> responseObserver) {
+    public void getFilteredEvents(FilterRequest request,
+                                  StreamObserver<FilteredEventsResponse> responseObserver) {
 
+        // dane wejściowe z requestu gRPC
         var faculty = request.getFaculty();
         var groups = request.getGroupsList();
 
-        var filtered = eventService.getEvents().stream()
-                .filter(e -> e.getFaculty() != null && e.getFaculty().equalsIgnoreCase(faculty))
+        // przekazanie do handlera biznesowego
+        var filterRequestDto = FilterRequestDto.builder()
+                .faculty(faculty)
+                .groups(groups)
+                .build();
+
+        // otrzymujemy Optional<List<EventDto>>
+        var filteredOptional = eventFilterHandler.handleFiltering(filterRequestDto);
+
+        // jeśli pusty, zwracamy pustą odpowiedź
+        var events = filteredOptional.orElse(List.of());
+
+        // mapowanie DTO -> proto
+        var protoEvents = events.stream()
+                .map(this::mapToProto)
                 .collect(Collectors.toList());
 
         var response = FilteredEventsResponse.newBuilder()
-                .addAllEvents(filtered.stream().map(this::mapToProto).collect(Collectors.toList()))
+                .addAllEvents(protoEvents)
+                .build();
+
+        // odpowiedź gRPC
+        responseObserver.onNext(response);
+        responseObserver.onCompleted();
+    }
+
+    /**
+     * Nowa metoda: zwraca listę unikalnych wydziałów (FacultyName).
+     */
+    @Override
+    public void getFaculties(Empty request, StreamObserver<FacultiesResponse> responseObserver) {
+        // Twój EventService zwraca List<FacultyName>
+        var facultyDtos = eventService.getFaculties();
+
+        var protoFaculties = facultyDtos.stream()
+                .map(f -> Faculty.newBuilder()       // mapowanie model -> proto
+                        .setCode(f.getCode())
+                        .build())
+                .collect(Collectors.toList());
+
+        FacultiesResponse response = FacultiesResponse.newBuilder()
+                .addAllFaculties(protoFaculties)
                 .build();
 
         responseObserver.onNext(response);
         responseObserver.onCompleted();
     }
+
+    @Override
+    public void getGroups(Empty request, StreamObserver<GroupsResponse> responseObserver) {
+        // Twój EventService zwraca List<GroupName>
+        var groupDtos = eventService.getGroups();
+
+        var protoGroups = groupDtos.stream()
+                .map(g -> Group.newBuilder()         // model -> proto
+                        .setCode(g.getCode())
+                        .build())
+                .collect(Collectors.toList());
+
+        GroupsResponse response = GroupsResponse.newBuilder()
+                .addAllGroups(protoGroups)
+                .build();
+
+        responseObserver.onNext(response);
+        responseObserver.onCompleted();
+    }
+
 
     private Event mapToProto(EventDto dto) {
         return Event.newBuilder()
